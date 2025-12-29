@@ -1,0 +1,46 @@
+name: ai_trip_planner
+description: "AI-powered Trip Planner mobile application."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # 👇 Works with Flutter intl pin 0.20.2
+  device_preview: ^1.2.0
+
+  flutter_riverpod: ^2.5.1
+
+  # Firebase (FlutterFire v3)
+  firebase_core: ^3.6.0
+  firebase_auth: ^5.3.0
+  cloud_firestore: ^5.4.0
+  firebase_storage: ^12.3.0
+
+  # Routing
+  go_router: ^14.2.7
+
+  # 👇 Required because Flutter SDK pins intl
+  intl: 0.20.2
+
+  # 👇 freezed_annotation belongs here (runtime)
+  freezed_annotation: ^2.4.4
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # Code generation
+  freezed: ^2.5.7
+  json_serializable: ^6.8.0
+  build_runner: ^2.4.12
+
+flutter:
+  uses-material-design: true
