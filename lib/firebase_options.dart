@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'ai-trip-planner-d654e.firebasestorage.app',
     measurementId: 'G-KQXDW08CSP',
   );
+
 }
