@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
+import '../../../core/providers/auth_service_provider.dart';
 
 class GetStartedPage extends StatelessWidget {
   const GetStartedPage({super.key});
@@ -55,10 +57,24 @@ class GetStartedPage extends StatelessWidget {
 
               const SizedBox(height: 28),
 
-              SocialButton(
-                icon: Icons.g_mobiledata,
-                text: 'Continue with Google',
-                onTap: () => _goToHumanVerification(context),
+              Consumer(
+                builder: (context, ref, _) {
+                  final auth = ref.read(authServiceProvider);
+                  return SocialButton(
+                    icon: Icons.g_mobiledata,
+                    text: 'Continue with Google',
+                    onTap: () async {
+                      try {
+                        final userCred = await auth.signInWithGoogle();
+                        if (userCred != null) {
+                          if (context.mounted) context.go('/home');
+                        }
+                      } catch (e) {
+                        // ignore errors for now — show dialog in further iteration
+                      }
+                    },
+                  );
+                },
               ),
 
               const SizedBox(height: 12),

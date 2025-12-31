@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/theme/app_colors.dart';
 import 'onboarding_page_1.dart';
 
@@ -71,7 +72,11 @@ class OnboardingPage2 extends StatelessWidget {
                 children: [
                   Expanded(
                     child: OutlinedButton(
-                      onPressed: () => context.go('/login'),
+                      onPressed: () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('seenOnboarding', true);
+                        if (context.mounted) context.go('/login');
+                      },
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: AppColors.primary),
                         shape: RoundedRectangleBorder(

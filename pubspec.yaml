@@ -28,6 +28,9 @@ dependencies:
 
   # Freezed annotation
   freezed_annotation: ^2.4.4
+  shared_preferences: ^2.1.1
+  http: ^0.13.6
+  google_sign_in: ^6.1.0
 
 dev_dependencies:
   flutter_test:
@@ -40,6 +43,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/logo.png
     - assets/images/onboarding_1.png
     - assets/images/onboarding_2.png
     - assets/images/onboarding_3.png
