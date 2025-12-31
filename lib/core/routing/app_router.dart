@@ -16,7 +16,7 @@ import '../../features/onboarding/presentation/onboarding_page_1.dart';
 import '../../features/onboarding/presentation/onboarding_page_2.dart';
 import '../../features/onboarding/presentation/onboarding_page_3.dart';
 
-/// 🔁 Refresh router when auth state changes
+///  Refresh router when auth state changes
 class GoRouterRefreshStream extends ChangeNotifier {
   late final StreamSubscription _sub;
 
