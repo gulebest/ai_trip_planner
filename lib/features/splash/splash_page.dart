@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class SplashPage extends StatefulWidget {
@@ -33,25 +32,18 @@ class _SplashPageState extends State<SplashPage>
 
     _controller.forward();
 
-    // ⏳ Navigate after splash — decide based on onboarding flag
-    _decideNavigation();
+    // ⏳ Navigate after splash — always start onboarding first
+    _navigateToOnboarding();
   }
 
-  Future<void> _decideNavigation() async {
-    final prefs = await SharedPreferences.getInstance();
-    final seenOnboarding = prefs.getBool('seenOnboarding') ?? false;
-
+  Future<void> _navigateToOnboarding() async {
     // keep splash visible for animation
     await Future.delayed(const Duration(milliseconds: 1600));
 
     if (!mounted) return;
 
-    if (seenOnboarding) {
-      // If onboarding already seen, go to get-started (auth) flow
-      context.go('/get-started');
-    } else {
-      context.go('/onboarding-1');
-    }
+    // Always start with onboarding flow after splash
+    context.go('/onboarding-1');
   }
 
   @override

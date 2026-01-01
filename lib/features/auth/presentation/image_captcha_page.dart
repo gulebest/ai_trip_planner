@@ -25,17 +25,27 @@ class _ImageCaptchaPageState extends State<ImageCaptchaPage> {
   Future<void> _verify() async {
     final selectedCount = _selected.where((s) => s).length;
     if (selectedCount == 0) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please select at least one image')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select at least one image')),
+      );
       return;
     }
 
     setState(() => _loading = true);
 
     final localUri = Uri.parse('http://localhost:5000/verifyCaptcha');
-    final cloudUri = Uri.parse('https://us-central1-your-project.cloudfunctions.net/verifyCaptcha');
+    final cloudUri = Uri.parse(
+      'https://us-central1-your-project.cloudfunctions.net/verifyCaptcha',
+    );
 
     try {
-      final res = await http.post(localUri, body: json.encode({'token': 'dev-pass'}), headers: {'Content-Type': 'application/json'}).timeout(const Duration(seconds: 4));
+      final res = await http
+          .post(
+            localUri,
+            body: json.encode({'token': 'dev-pass'}),
+            headers: {'Content-Type': 'application/json'},
+          )
+          .timeout(const Duration(seconds: 4));
       if (res.statusCode == 200) {
         final body = json.decode(res.body) as Map<String, dynamic>;
         if (body['success'] == true) {
@@ -44,7 +54,13 @@ class _ImageCaptchaPageState extends State<ImageCaptchaPage> {
         }
       }
 
-      final res2 = await http.post(cloudUri, body: json.encode({'token': 'dev-pass'}), headers: {'Content-Type': 'application/json'}).timeout(const Duration(seconds: 6));
+      final res2 = await http
+          .post(
+            cloudUri,
+            body: json.encode({'token': 'dev-pass'}),
+            headers: {'Content-Type': 'application/json'},
+          )
+          .timeout(const Duration(seconds: 6));
       if (res2.statusCode == 200) {
         final body = json.decode(res2.body) as Map<String, dynamic>;
         if (body['success'] == true) {
@@ -53,9 +69,17 @@ class _ImageCaptchaPageState extends State<ImageCaptchaPage> {
         }
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Verification failed')));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Verification failed')));
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Verification error — make sure the verifier is running')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Verification error — make sure the verifier is running',
+          ),
+        ),
+      );
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -70,7 +94,7 @@ class _ImageCaptchaPageState extends State<ImageCaptchaPage> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => context.pop(),
+          onPressed: () => context.go('/human-verification'),
         ),
       ),
       body: Padding(
@@ -118,7 +142,9 @@ class _ImageCaptchaPageState extends State<ImageCaptchaPage> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            color: selected ? AppColors.primary : AppColors.greyLight,
+                            color: selected
+                                ? AppColors.primary
+                                : AppColors.greyLight,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: const Center(
@@ -136,7 +162,11 @@ class _ImageCaptchaPageState extends State<ImageCaptchaPage> {
                             child: CircleAvatar(
                               radius: 12,
                               backgroundColor: Colors.white70,
-                              child: Icon(Icons.check, size: 16, color: AppColors.primary),
+                              child: Icon(
+                                Icons.check,
+                                size: 16,
+                                color: AppColors.primary,
+                              ),
                             ),
                           ),
                       ],

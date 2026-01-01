@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/providers/auth_service_provider.dart';
@@ -66,11 +68,48 @@ class GetStartedPage extends StatelessWidget {
                     onTap: () async {
                       try {
                         final userCred = await auth.signInWithGoogle();
-                        if (userCred != null) {
+
+                        // Some platforms may complete sign-in via auth state change
+                        final current = FirebaseAuth.instance.currentUser;
+
+                        if (userCred != null || current != null) {
                           if (context.mounted) context.go('/home');
+                          return;
+                        }
+
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Google sign-in did not complete.'),
+                            ),
+                          );
+                        }
+                      } on FirebaseAuthException catch (e) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Auth error: ${e.code} — ${e.message}',
+                              ),
+                            ),
+                          );
+                        }
+                      } on PlatformException catch (e) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Platform error: ${e.code} — ${e.message}',
+                              ),
+                            ),
+                          );
                         }
                       } catch (e) {
-                        // ignore errors for now — show dialog in further iteration
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Sign-in error: $e')),
+                          );
+                        }
                       }
                     },
                   );
