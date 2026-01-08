@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // Primary brand green
+  // Primary brand green color
   static const Color primaryGreen = Color(0xFF34C38F);
 
   // Gradient colors
