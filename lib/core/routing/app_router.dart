@@ -91,7 +91,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     },
 
     routes: [
-      /// Splash
+      /// Splash page
       GoRoute(path: '/', builder: (_, __) => const SplashPage()),
 
       /// Onboarding
