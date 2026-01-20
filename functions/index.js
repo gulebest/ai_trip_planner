@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-// Simple local verification stub for captcha
+// Simple local verification stub for captcha.
 // In production, verify with Google reCAPTCHA endpoint using SECRET_KEY.
 
 const app = express();
