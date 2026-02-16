@@ -16,6 +16,11 @@ class _ImageCaptchaPageState extends State<ImageCaptchaPage> {
   final List<bool> _selected = List<bool>.filled(9, false);
   bool _loading = false;
 
+  // ✅ MOCK SETTINGS: Set to true to bypass backend
+  static const bool _simulateBackend = true;
+  // Let's assume indices 0, 1, and 3 are the "correct" images for this mock
+  static const Set<int> _correctIndices = {0, 1, 3};
+
   void _toggle(int index) {
     setState(() {
       _selected[index] = !_selected[index];
@@ -25,15 +30,56 @@ class _ImageCaptchaPageState extends State<ImageCaptchaPage> {
   Future<void> _verify() async {
     final selectedCount = _selected.where((s) => s).length;
     if (selectedCount == 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select at least one image')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please select at least one image')),
+        );
+      }
       return;
     }
 
     setState(() => _loading = true);
 
-    final localUri = Uri.parse('http://localhost:5000/verifyCaptcha');
+    // ---------------------------------------------------------
+    // 1️⃣ MOCK VERIFICATION (For smooth development)
+    // ---------------------------------------------------------
+    if (_simulateBackend) {
+      await Future.delayed(const Duration(seconds: 2)); // Fake network delay
+
+      // Check if user selected exactly the correct indices
+      // (Or simplified: just return true if they picked anything)
+      final selectedIndices = _selected
+          .asMap()
+          .entries
+          .where((e) => e.value)
+          .map((e) => e.key)
+          .toSet();
+
+      // Strict check: Must match exactly (optional)
+      // bool isCorrect = selectedIndices.length == _correctIndices.length &&
+      //     selectedIndices.containsAll(_correctIndices);
+
+      // Relaxed check for dev: Just pass if they selected something
+      bool isCorrect = true;
+
+      if (mounted) {
+        setState(() => _loading = false);
+        if (isCorrect) {
+          context.go('/login');
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Incorrect selection. Try again.')),
+          );
+        }
+      }
+      return;
+    }
+
+    // ---------------------------------------------------------
+    // 2️⃣ REAL BACKEND VERIFICATION
+    // ---------------------------------------------------------
+    // Use 10.0.2.2 for Android Emulator, localhost for iOS Simulator
+    final localUri = Uri.parse('http://10.0.2.2:5000/verifyCaptcha');
     final cloudUri = Uri.parse(
       'https://us-central1-your-project.cloudfunctions.net/verifyCaptcha',
     );

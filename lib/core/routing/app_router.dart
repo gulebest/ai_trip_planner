@@ -10,6 +10,9 @@ import '../../features/auth/presentation/human_verification_page.dart';
 import '../../features/auth/presentation/image_captcha_page.dart';
 
 import '../../features/home/presentation/home_screen.dart';
+import '../../features/ai_trip/presentation/screens/ai_trip_form_screen.dart';
+import '../../features/ai_trip/presentation/screens/trip_result_screen.dart';
+import '../../features/ai_trip/models/trip_itinerary_model.dart';
 import '../../features/splash/splash_page.dart';
 
 import '../../features/onboarding/presentation/onboarding_page_1.dart';
@@ -123,6 +126,27 @@ final routerProvider = Provider<GoRouter>((ref) {
 
       /// Home
       GoRoute(path: '/home', builder: (_, __) => const HomeScreen()),
+
+      /// AI Trip Form
+      GoRoute(
+        path: '/create-trip',
+        builder: (_, __) => const AiTripFormScreen(),
+        routes: [
+          GoRoute(
+            path: 'result',
+            builder: (context, state) {
+              final itinerary =
+                  state.extra as TripItineraryModel?; // Pass data via extra
+              if (itinerary == null) {
+                return const Scaffold(
+                  body: Center(child: Text("No itinerary data found")),
+                );
+              }
+              return TripResultScreen(itinerary: itinerary);
+            },
+          ),
+        ],
+      ),
     ],
   );
 });

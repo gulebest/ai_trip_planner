@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -18,10 +19,21 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Text(
-          "Welcome — You are Logged In!",
-          style: TextStyle(fontSize: 22),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Welcome — You are Logged In!",
+              style: TextStyle(fontSize: 22),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: () => context.push('/create-trip'),
+              icon: const Icon(Icons.auto_awesome),
+              label: const Text('Design New Trip'),
+            ),
+          ],
         ),
       ),
     );
