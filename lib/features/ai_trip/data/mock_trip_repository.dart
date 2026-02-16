@@ -3,7 +3,7 @@ import '../models/trip_request_model.dart';
 
 class MockTripRepository {
   Future<TripItineraryModel> generateTrip(TripRequestModel request) async {
-    // Simulate network del
+    // Simulate network dela
     await Future.delayed(const Duration(seconds: 2));
 
     // Determine content based on destination (simple switch for demo)
