@@ -29,9 +29,10 @@ dependencies:
   # Freezed annotation
   freezed_annotation: ^2.4.4
   shared_preferences: ^2.1.1
-  http: ^0.13.6
+  http: ^1.2.0
   google_sign_in: ^6.1.0
   json_annotation: ^4.9.0
+  google_generative_ai: ^0.4.7
 
 dev_dependencies:
   flutter_test:
