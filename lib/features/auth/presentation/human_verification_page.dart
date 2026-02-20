@@ -52,7 +52,7 @@ class _HumanVerificationPageState extends State<HumanVerificationPage> {
 
             const SizedBox(height: 32),
 
-            /// Checkbox contai
+            /// Checkbox contain
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
