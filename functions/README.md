@@ -1,6 +1,6 @@
 # Functions (Captcha verifier)
 
-This folder contains a simple Express-based verifier for human verification tokens
+This folder contains a simple Express-based verifier for human verification tokens.
 
 Development:
 
