@@ -82,7 +82,7 @@ class _$TripItineraryModelCopyWithImpl<$Res, $Val extends TripItineraryModel>
                       as String,
             durationDays: null == durationDays
                 ? _value.durationDays
-                : durationDays // ignore: cast_nullable_to_non_nullable
+                : durationDays // ignore: cast_nullable_to_non_nullabl
                       as int,
             days: null == days
                 ? _value.days
