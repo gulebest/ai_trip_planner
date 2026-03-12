@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-//perfec
+//perfect
 import '../../../core/theme/app_colors.dart';
 import '../../../core/providers/auth_service_provider.dart';
 
