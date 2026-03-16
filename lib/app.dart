@@ -14,7 +14,7 @@ class MyApp extends ConsumerWidget {
     return MaterialApp.router(
       title: 'AI Trip Planner',
       debugShowCheckedModeBanner: false,
-// thi
+// th
       // ✅ Themes
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
