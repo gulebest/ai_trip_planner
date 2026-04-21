@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../providers/trip_request_provider.dart';
-// import '../../data/mock_trip_repositor
+// import '../../data/mock_trip_reposi
 import '../../data/gemini_trip_repository.dart';
 import '../../../../core/theme/app_colors.dart';
 
