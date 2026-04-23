@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: ai-trip-planner-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: PORT
+        value: 10000
+      - key: OPENROUTER_MODEL
+        value: google/gemma-3-27b-it:free
+      - key: CORS_ORIGIN
+        value: "*"
+      - key: OPENROUTER_API_KEY
+        sync: false

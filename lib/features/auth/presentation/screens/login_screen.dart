@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/providers/auth_service_provider.dart';
+import '../../../../core/services/auth_service.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -23,11 +23,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     try {
       await auth.signInWithEmail(_emailCtrl.text.trim(), _passCtrl.text.trim());
       if (mounted) context.go('/home');
-    } on FirebaseAuthException catch (e) {
-      final msg = e.message ?? e.code;
+    } on AuthException catch (e) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Login failed: $msg')));
+      ).showSnackBar(SnackBar(content: Text('Login failed: ${e.message}')));
     } catch (e) {
       ScaffoldMessenger.of(
         context,
@@ -46,11 +45,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         _passCtrl.text.trim(),
       );
       if (mounted) context.go('/home');
-    } on FirebaseAuthException catch (e) {
-      final msg = e.message ?? e.code;
+    } on AuthException catch (e) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Registration failed: $msg')));
+      ).showSnackBar(
+        SnackBar(content: Text('Registration failed: ${e.message}')),
+      );
     } catch (e) {
       ScaffoldMessenger.of(
         context,

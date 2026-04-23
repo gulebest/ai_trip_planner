@@ -13,4 +13,11 @@ class AppColors {
   static const Color grey = Color(0xFF9CA3AF);
   static const Color greyLight = Color(0xFFE5E7EB);
   static const Color white = Colors.white;
+
+  // Theme surface/text variants
+  static const Color secondary = Color(0xFF27AE60);
+  static const Color background = Color(0xFFF9FAFB);
+  static const Color darkBackground = Color(0xFF0F172A);
+  static const Color text = textPrimary;
+  static const Color textLight = Color(0xFFE5E7EB);
 }

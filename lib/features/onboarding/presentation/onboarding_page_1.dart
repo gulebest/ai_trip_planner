@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/theme/app_colors.dart';
+import 'widgets/indicator.dart';
 
 class OnboardingPage1 extends StatelessWidget {
   const OnboardingPage1({super.key});
@@ -115,31 +116,6 @@ class OnboardingPage1 extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class Indicator extends StatelessWidget {
-  final int activeIndex;
-  const Indicator({required this.activeIndex, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(3, (index) {
-        return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: activeIndex == index ? 20 : 8,
-          height: 8,
-          decoration: BoxDecoration(
-            color: activeIndex == index
-                ? AppColors.primary
-                : AppColors.greyLight,
-            borderRadius: BorderRadius.circular(4),
-          ),
-        );
-      }),
     );
   }
 }

@@ -1,52 +1,79 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class AppUser {
+  final String email;
+
+  const AppUser({required this.email});
+}
+
+class AuthException implements Exception {
+  final String message;
+
+  const AuthException(this.message);
+
+  @override
+  String toString() => message;
+}
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  static const String _sessionEmailKey = 'session_user_email';
 
-  Future<UserCredential> signInWithEmail(String email, String password) async {
-    return await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+  final StreamController<AppUser?> _authStateController =
+      StreamController<AppUser?>.broadcast();
+  AppUser? _currentUser;
+
+  AuthService() {
+    _restoreSession();
   }
 
-  Future<UserCredential> registerWithEmail(
-    String email,
-    String password,
-  ) async {
-    return await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-  }
+  Stream<AppUser?> get authStateChanges => _authStateController.stream;
 
-  Future<UserCredential?> signInWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) return null; // user aborted
+  AppUser? get currentUser => _currentUser;
 
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      return await _auth.signInWithCredential(credential);
-    } catch (e, st) {
-      // Surface platform errors to logs to help debugging on Android/iOS.
-      // The UI layer will also receive the thrown exception to show to users.
-      // Print so logs are visible when running `flutter run`.
-      print('AuthService.signInWithGoogle error: $e');
-      print(st);
-      rethrow;
+  Future<void> _restoreSession() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedEmail = prefs.getString(_sessionEmailKey);
+    if (savedEmail == null || savedEmail.isEmpty) {
+      _currentUser = null;
+    } else {
+      _currentUser = AppUser(email: savedEmail);
     }
+    _authStateController.add(_currentUser);
+  }
+
+  Future<AppUser> signInWithEmail(String email, String password) async {
+    final normalizedEmail = email.trim();
+    final normalizedPassword = password.trim();
+
+    if (normalizedEmail.isEmpty || !normalizedEmail.contains('@')) {
+      throw const AuthException('Please enter a valid email address.');
+    }
+    if (normalizedPassword.length < 6) {
+      throw const AuthException('Password must be at least 6 characters.');
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_sessionEmailKey, normalizedEmail);
+
+    _currentUser = AppUser(email: normalizedEmail);
+    _authStateController.add(_currentUser);
+    return _currentUser!;
+  }
+
+  Future<AppUser> registerWithEmail(String email, String password) async {
+    // Register follows local session auth rules in this build.
+    return signInWithEmail(email, password);
   }
 
   Future<void> signOut() async {
-    await GoogleSignIn().signOut();
-    await _auth.signOut();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_sessionEmailKey);
+    _currentUser = null;
+    _authStateController.add(null);
+  }
+
+  void dispose() {
+    _authStateController.close();
   }
 }

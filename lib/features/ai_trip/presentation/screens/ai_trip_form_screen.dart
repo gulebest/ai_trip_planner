@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../models/trip_itinerary_model.dart';
 import '../../providers/trip_request_provider.dart';
-// import '../../data/mock_trip
-import '../../data/gemini_trip_repository.dart';
+import '../../data/ai_trip_service.dart';
 import '../../../../core/theme/app_colors.dart';
 
 class AiTripFormScreen extends ConsumerStatefulWidget {
@@ -40,10 +40,8 @@ class _AiTripFormScreenState extends ConsumerState<AiTripFormScreen> {
   }
 
   Future<void> _fetchAvailableModels() async {
-    final repository = GeminiTripRepository();
-    final models = await repository.listAllModels();
     setState(() {
-      _availableModels = models;
+      _availableModels = ['Llama 3.1 8B Instruct (Free) via Node.js'];
     });
   }
 
@@ -60,21 +58,58 @@ class _AiTripFormScreenState extends ConsumerState<AiTripFormScreen> {
     setState(() => _isGenerating = true);
 
     try {
-      // Use Gemini Repository for Real AI response
-      final repository = GeminiTripRepository();
-      final itinerary = await repository.generateTrip(tripState);
+      // Use the newly created AI Trip Service from provider
+      final service = ref.read(aiTripServiceProvider);
 
-      // final repository = MockTripRepository();
-      // final itinerary = await repository.generateTrip(tripState);
+      // Calculate duration manually since it's just start/end dates in original state
+      final duration =
+          tripState.endDate.difference(tripState.startDate).inDays + 1;
+
+      final generatedResp = await service.generateTrip(
+        TripRequest(
+          destination: tripState.destination,
+          budget: tripState.budget,
+          duration: duration,
+          interests: tripState.interests,
+        ),
+      );
+
+      final itinerary = TripItineraryModel(
+        destination: generatedResp.destination,
+        budget: tripState.budget,
+        durationDays: duration,
+        days: generatedResp.days
+            .map(
+              (d) => DayItineraryModel(
+                dayTitle: d.dayTitle,
+                activities: d.activities
+                    .map(
+                      (a) => ActivityModel(
+                        time: a.time,
+                        title: a.title,
+                        description: a.description,
+                        location: a.location,
+                        isBooked: false,
+                      ),
+                    )
+                    .toList(),
+              ),
+            )
+            .toList(),
+      );
 
       if (mounted) {
         context.push('/create-trip/result', extra: itinerary);
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Error: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+            backgroundColor: Colors.red,
+            duration: const Duration(seconds: 5),
+          ),
+        );
       }
     } finally {
       if (mounted) setState(() => _isGenerating = false);
@@ -128,7 +163,7 @@ class _AiTripFormScreenState extends ConsumerState<AiTripFormScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Plan Your Trip ✈️'),
+        title: const Text('Plan Your Trip'),
         elevation: 0,
         backgroundColor: Colors.transparent,
         foregroundColor: AppColors.primary,
@@ -299,8 +334,9 @@ class _AiTripFormScreenState extends ConsumerState<AiTripFormScreen> {
                             ),
                           )
                         : const Text(
-                            'Generate Trip 🚀',
+                            'Generate Trip ',
                             style: TextStyle(
+                              color: Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),

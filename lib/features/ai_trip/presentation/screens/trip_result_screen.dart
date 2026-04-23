@@ -31,7 +31,7 @@ class TripResultScreen extends StatelessWidget {
                 fit: StackFit.expand,
                 children: [
                   Image.network(
-                    'https://source.unsplash.com/800x600/?travel,${itinerary.destination}',
+                    'https://picsum.photos/seed/${itinerary.destination}/800/600',
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) => Container(
                       color: Colors.blueGrey,
@@ -97,7 +97,7 @@ class TripResultScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: Text(
-                        day.dayTitle,
+                        'Day ${dayIndex + 1}', // Failsafe override to ensure day numbers are always correct
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.blue.shade900,
