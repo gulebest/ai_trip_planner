@@ -278,7 +278,7 @@ class _AiTripFormScreenState extends ConsumerState<AiTripFormScreen> {
                     return ChoiceChip(
                       label: Text(budget),
                       selected: isSelected,
-                      selectedColor: AppColors.primary.withOpacity(0.2),
+                      selectedColor: AppColors.primary.withValues(alpha: 0.2),
                       onSelected: (selected) {
                         if (selected) {
                           ref

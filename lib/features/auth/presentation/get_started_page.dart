@@ -105,7 +105,9 @@ class SocialButton extends StatelessWidget {
         onPressed: onTap,
         style: OutlinedButton.styleFrom(
           side: const BorderSide(color: Colors.grey),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
         ),
         icon: Icon(icon, color: Colors.black),
         label: Text(

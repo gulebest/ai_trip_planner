@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../models/trip_itinerary_model.dart';
-import '../../../../core/theme/app_colors.dart';
 
 class ActivityCard extends StatelessWidget {
   final ActivityModel activity;
@@ -38,7 +37,7 @@ class ActivityCard extends StatelessWidget {
                     border: Border.all(color: Colors.white, width: 2),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.blue.withOpacity(0.3),
+                        color: Colors.blue.withValues(alpha: 0.3),
                         blurRadius: 4,
                         spreadRadius: 2,
                       ),
@@ -67,7 +66,7 @@ class ActivityCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),

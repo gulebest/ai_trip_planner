@@ -42,6 +42,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     initialLocation: '/',
 
     refreshListenable: GoRouterRefreshStream(
+      // ignore: deprecated_member_use
       ref.read(authStateProvider.stream),
     ),
 
