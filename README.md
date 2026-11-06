@@ -10,7 +10,6 @@ OpenRouter (Gemini model family) using server-side environment variables.
 - AI Provider: OpenRouter
 - Security: API key is stored only on backend (`OPENROUTER_API_KEY`)
 
-
 ## API
 
 - `GET /health`: health check
