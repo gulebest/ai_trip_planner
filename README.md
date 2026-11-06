@@ -16,7 +16,6 @@ OpenRouter (Gemini model family) using server-side environment variables.
 - `POST /generate-trip`
   - request body: `{ "prompt": "..." }`
   - response body: `{ "trip": "..." }`
-
 ## Local Backend Run
 
 1. Copy `.env.example` to `.env`
