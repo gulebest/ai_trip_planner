@@ -27,7 +27,6 @@ OpenRouter (Gemini model family) using server-side environment variables.
 npm install
 ```
 4. Start server:
-
 ```bash
 npm run dev
 ```
