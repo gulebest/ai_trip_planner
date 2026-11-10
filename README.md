@@ -7,6 +7,7 @@ OpenRouter (Gemini model family) using server-side environment variables.
 ## Current Architecture
 - Frontend: Flutter
 - Backend: Express API on Render
+- 
 - Security: API key is stored only on backend (`OPENROUTER_API_KEY`)
 
 ## API
