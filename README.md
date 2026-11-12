@@ -17,7 +17,6 @@ OpenRouter (Gemini model family) using server-side environment variables.
   - request body: `{ "prompt": "..." }`
   - response body: `{ "trip": "..." }`
 ## Local Backend Run
-
 1. Copy `.env.example` to `.env`
 2. Set `OPENROUTER_API_KEY` in `.env`
 3. Install dependencies:
