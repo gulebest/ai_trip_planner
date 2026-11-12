@@ -6,7 +6,6 @@ OpenRouter (Gemini model family) using server-side environment variables.
 
 
 
-
 ## Current Architecture
 - Frontend: Flutter
 - Backend: Express API on Render
