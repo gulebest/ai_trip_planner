@@ -21,6 +21,7 @@ OpenRouter (Gemini model family) using server-side environment variables.
 2. Set `OPENROUTER_API_KEY` in `.env`
 3. Install dependencies:
 ```bash
+
 npm install
 ```
 4. Start server:
