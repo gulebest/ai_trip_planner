@@ -1,4 +1,5 @@
 # AI Trip Planner
+
 AI Trip Planner is a Flutter mobile app with a Render-hosted Node.js backend.
 The mobile app sends trip prompts to the backend, and the backend securely calls
 OpenRouter (Gemini model family) using server-side environment variables.
